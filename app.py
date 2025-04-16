@@ -21,17 +21,11 @@ if uploaded_file is not None:
         # Audio player
         st.audio(uploaded_file, format="audio/wav")
 
-        # Handle 48kHz sample rate and force user to specify 'talk_type'
-        if sample_rate == 48000:
-            st.warning("This audio file has a 48kHz sample rate. Please select a 'talk_type'.")
-            talk_type = st.selectbox("Select talk type", ["far", "near", "screen"], index=0)
-        else:
-            talk_type = "far"  # Default talk type for non-48kHz files
 
         # Prepare input data as a dictionary inside a list
         input_data = [{
             "wav": audio_data,
-            "talk_type": talk_type
+            "talk_type": "far"
         }]
 
         # Run AECMOS model with the correct sample rate passed as a separate argument
