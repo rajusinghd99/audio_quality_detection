@@ -1,0 +1,4 @@
+streamlit
+speechmos
+soundfile
+numpy
