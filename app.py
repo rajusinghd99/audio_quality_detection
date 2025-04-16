@@ -12,37 +12,33 @@ uploaded_file = st.file_uploader("Choose a WAV file", type=["wav"])
 if uploaded_file is not None:
     try:
         audio_data, sample_rate = sf.read(uploaded_file)
-
+        
         # Convert stereo to mono if needed
         if audio_data.ndim > 1:
             st.warning("Stereo audio detected. Converting to mono.")
-            audio_data = np.mean(audio_data, axis=1)
-
+            audio_data = np.mean(audio_data, axis=0)  # Corrected: axis=0 to axis=0
+        
         # Audio player
         st.audio(uploaded_file, format="audio/wav")
-
+        
         # Check if sample rate is 48kHz and prompt the user
-        if sample_rate == 48000:
-            st.warning("This audio file has a 48kHz sample rate. Please select a 'talk_type'.")
-            talk_type = st.selectbox("Select talk type", ["far", "near", "screen"], index=0)
-        else:
-            # Default to "far" if it's not 48kHz
-            talk_type = "far"
 
+        talk_type = "far"
+        
         # Prepare input for aecmos
         input_data = [{
             "wav": audio_data,
             "talk_type": talk_type
         }]
-
+        
         # Run AECMOS
         result = aecmos_run(input_data, sr=sample_rate)
         score = result[0]["mos"]
         scaled_score = round(score * 2, 2)  # Scale 1–5 to 1–10
-
+        
         # Display score
         st.success(f"Estimated Audio Quality Score: {scaled_score} / 10")
-
+        
         # Feedback
         if scaled_score >= 8:
             st.markdown("✅ Excellent quality.")
@@ -52,6 +48,6 @@ if uploaded_file is not None:
             st.markdown("⚠️ Fair quality.")
         else:
             st.markdown("❌ Poor quality.")
-
+            
     except Exception as e:
         st.error(f"An error occurred while processing the audio: {e}")
