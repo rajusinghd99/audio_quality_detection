@@ -3,3 +3,4 @@ speechmos
 soundfile
 numpy
 librosa
+onnxruntime
