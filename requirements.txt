@@ -2,3 +2,4 @@ streamlit
 speechmos
 soundfile
 numpy
+librosa
