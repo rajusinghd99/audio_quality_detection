@@ -30,8 +30,8 @@ You can try the live app here: [https://your-app-name.streamlit.app](https://you
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/yourusername/audio-quality-evaluator.git
-cd audio-quality-evaluator
+git clone https://github.com/rajusinghd99/audio_quality_detection.git
+cd audio_quality_detection
 pip install -r requirements.txt
 streamlit run app.py
 ```
