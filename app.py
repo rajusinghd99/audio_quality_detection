@@ -21,16 +21,22 @@ if uploaded_file is not None:
         # Audio player
         st.audio(uploaded_file, format="audio/wav")
 
-        # Select talk type (default to "far")
-        talk_type = st.selectbox("Select talk type", ["far", "near", "screen"], index=0)
+        # Check if sample rate is 48kHz and prompt the user
+        if sample_rate == 48000:
+            st.warning("This audio file has a 48kHz sample rate. Please select a 'talk_type'.")
+            talk_type = st.selectbox("Select talk type", ["far", "near", "screen"], index=0)
+        else:
+            # Default to "far" if it's not 48kHz
+            talk_type = "far"
 
         # Prepare input for aecmos
         input_data = [{
             "wav": audio_data,
             "talk_type": talk_type
         }]
-        result = aecmos_run(input_data, sr=sample_rate)
 
+        # Run AECMOS
+        result = aecmos_run(input_data, sr=sample_rate)
         score = result[0]["mos"]
         scaled_score = round(score * 2, 2)  # Scale 1–5 to 1–10
 
