@@ -18,7 +18,8 @@ if uploaded_file is not None:
 
         st.audio(uploaded_file, format="audio/wav")
 
-        score = aecmos_run(audio_data, sample_rate)
+        # score = aecmos_run(audio_data, sample_rate)
+        score = aecmos_run(audio_data, sample_rate, talk_type="far")
         scaled_score = round(score * 2, 2)
 
         st.success(f"Estimated Audio Quality Score: {scaled_score} / 10")
