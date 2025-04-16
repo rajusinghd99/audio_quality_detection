@@ -27,12 +27,10 @@ if uploaded_file is not None:
         # Prepare input for aecmos
         input_data = [{
             "wav": audio_data,
-            "sr": sample_rate,
             "talk_type": talk_type
         }]
+        result = aecmos_run(input_data, sr=sample_rate)
 
-        # Run AECMOS
-        result = aecmos_run(input_data)
         score = result[0]["mos"]
         scaled_score = round(score * 2, 2)  # Scale 1–5 to 1–10
 
